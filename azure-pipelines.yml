@@ -8,6 +8,7 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  
 strategy:
   matrix:
     Python37:
@@ -15,38 +16,25 @@ strategy:
   maxParallel: 1
 
 steps:
-#- task: UsePythonVersion@0
-#  inputs:
-#    versionSpec: '$(python.version)'
-#  displayName: 'Use Python $(python.version)'
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '$(python.version)'
+  displayName: 'Use Python $(python.version)'
   
-#- script: |
-#    pip install robotframework robotframework-seleniumlibrary && npm install chromedriver
-#  displayName: "Install Dependencies"
+- script: |
+    pip install robotframework robotframework-seleniumlibrary && npm install chromedriver
+  displayName: "Install Dependencies"
 
-- task: CmdLine@2
-  environment: 
-    name: test
-    resourceType: VirtualMachine
-    tags: windows,prod # only deploy to virtual machines with both windows and prod tags
-  strategy:
-    runOnce:
-      deploy:   
-          steps:
-          - script: echo "robot --pythonpath . -x outputxunit.xml Test.robot"
+- task: CmdLine@2  
+  inputs:
+    script: |
+      echo Write your commands here      
+      echo Hello world
+      robot --pythonpath . -x outputxunit.xml Test.robot
 
-
-#- task: CmdLine@2  
-#  inputs:
-#    script: |
-#      echo Write your commands here
-#      
-#      echo Hello world
-#      robot --pythonpath . -x outputxunit.xml Test.robot
-
-#- task: PublishTestResults@2
-#  inputs:
-#    testResultsFiles: 'outputxunit.xml'
+- task: PublishTestResults@2
+  inputs:
+    testResultsFiles: 'outputxunit.xml'
 
 
 #- script: |
